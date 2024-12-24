@@ -1,8 +1,8 @@
-# workflow-hub/.github/workflows/build-and-push-docker-image.yml
+
 name: Build and Push Docker Image to Docker Hub
 
 on:
-  workflow_call:  # Позволяет вызывать workflow из других репозиториев
+  workflow_call:  # entry point for the workflow call event
     inputs:
       branch:
         required: false
@@ -64,7 +64,7 @@ jobs:
         password: ${{ secrets.DOCKER_TOKEN }}
 
     - name: Build and push Docker image
-      if: ${{ inputs.push_image == 'true' }}  # Публикуем образ только если push_image == true
+      if: ${{ inputs.push_image == 'true' }} 
       uses: docker/build-push-action@v4
       with:
         context: .
