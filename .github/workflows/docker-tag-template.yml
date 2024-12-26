@@ -21,6 +21,6 @@ jobs:
           echo "docker_tags=$TAG" >> $GITHUB_ENV
         env:
           GITHUB_REF: ${{ github.ref }}
-
-      - name: Output docker tags
-        run: echo "Docker tags set to ${{ env.docker_tags }}"
+      
+      - name: Debug docker_tags
+        run: echo "docker_tags = ${{ env.docker_tags }}"
