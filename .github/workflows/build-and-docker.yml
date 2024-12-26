@@ -47,6 +47,13 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+          cache: 'maven'       
+
       # Build the application with Maven
       - name: Build with Maven
         run: mvn ${{ inputs.maven_command }}
