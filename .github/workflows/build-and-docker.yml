@@ -19,14 +19,16 @@ on:
       docker_image_name:
         required: true
         type: string
-      docker_tags:
-        required: false
-        type: string
-        default: latest
+
       push_image: 
         required: false
         type: boolean
-        default: true        
+        default: true          
+
+      docker_tags:
+        required: true
+        type: string
+
 
     secrets:
       dockerhub_username:
@@ -56,7 +58,7 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
 
-      - name: Print Version
+      - name: Print Docker tags
         run: echo docker tag = ${{ inputs.docker_tags }}
 
       # Build the application with Maven
@@ -92,6 +94,9 @@ jobs:
         with:
           username: ${{ secrets.dockerhub_username }}
           password: ${{ secrets.dockerhub_password }}
+
+      - name: Print Docker tags
+        run: echo docker tag = ${{ inputs.docker_tags }}    
 
       - name: Build and push Docker image
         if: ${{ inputs.push_image }}
