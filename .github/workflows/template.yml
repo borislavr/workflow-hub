@@ -1,0 +1,15 @@
+name: Template Workflow
+
+on:
+  workflow_call:
+    inputs:
+      docker_tags:
+        required: true
+        type: string
+
+jobs:
+  print-docker-tags:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print docker_tags
+        run: echo "Received docker_tags: ${{ inputs.docker_tags }}"
