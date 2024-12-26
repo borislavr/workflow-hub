@@ -52,7 +52,6 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '21'
-          cache: 'maven'       
 
       # Build the application with Maven
       - name: Build with Maven
@@ -89,7 +88,7 @@ jobs:
           password: ${{ secrets.dockerhub_password }}
 
       - name: Build and push Docker image
-        if: ${{ inputs.push_image == 'true' }} 
+        if: ${{ inputs.push_image }} 
         uses: docker/build-push-action@v4
         with:
             context: .
