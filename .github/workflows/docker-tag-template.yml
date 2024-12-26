@@ -18,8 +18,9 @@ jobs:
         run: |
           TAG=$(echo "${GITHUB_REF}" | sed -e 's|refs/tags/||' -e 's|refs/heads/||')
           if [ -z "$TAG" ]; then TAG="main"; fi
-          echo "docker_tags=$TAG"
-          echo "::set-output name=docker_tags::$TAG"
+          echo "docker_tags=$TAG" >> $GITHUB_ENV
+        env:
+          GITHUB_REF: ${{ github.ref }}
 
-    outputs:
-      docker_tags: ${{ steps.set_tags.outputs.docker_tags }}
+      - name: Output docker tags
+        run: echo "Docker tags set to ${{ env.docker_tags }}"
