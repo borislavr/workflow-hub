@@ -23,7 +23,7 @@ on:
         required: false
         type: string
         default: latest
-      push_image:
+      push_image: 
         required: false
         type: boolean
         default: true        
@@ -104,4 +104,4 @@ jobs:
           context: .
           file: ${{ inputs.dockerfile_path }}
           push: true
-          tags: ${{ secrets.dockerhub_username }}/${{ inputs.docker_image_name }}:${{ github.sha }}
+          tags: ${{ secrets.dockerhub_username }}/${{ inputs.docker_image_name }}:${{ inputs.docker_tags }}
