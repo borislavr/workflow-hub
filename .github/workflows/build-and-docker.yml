@@ -52,6 +52,13 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '21'
+          
+      - name: Extract Maven project version
+        id: extract_version
+        run: echo "VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
+    
+      - name: Print Version
+        run: echo Project version=$VERSION          
 
       # Build the application with Maven
       - name: Build with Maven
@@ -91,7 +98,10 @@ jobs:
         if: ${{ inputs.push_image }} 
         uses: docker/build-push-action@v4
         with:
-            context: .
-            file: ${{ inputs.dockerfile_path }}  #path to Dockerfile (incoming parameter)
-            push: true
-            tags: ${{ secrets.docker_username }}/qubership-integration-engine:${{ env.VERSION }}
+          context: .
+          file: ${{ inputs.dockerfile_path }}  #path to Dockerfile (incoming parameter)
+          push: true
+          tags: |
+            ${{ inputs.docker_username }}/qubership-integration-engine:${{ env.VERSION }}
+            ${{ inputs.docker_username }}/qubership-integration-engine:${{ inputs.docker_tags }}
+            ${{ inputs.docker_username }}/qubership-integration-engine:${{ env.VERSION }}-${{ github.sha }}
