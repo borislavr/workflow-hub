@@ -56,12 +56,8 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
 
-      - name: Extract Maven project version
-        id: extract_version
-        run: echo "VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
-    
       - name: Print Version
-        run: echo Project version=$VERSION          
+        run: echo docker tag = ${{ inputs.docker_tags }}
 
       # Build the application with Maven
       - name: Build with Maven
