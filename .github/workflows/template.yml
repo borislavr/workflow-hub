@@ -12,4 +12,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Print docker_tags
-        run: echo "Received docker_tags: ${{ inputs.docker_tags }}"
+        run: echo "Received docker_tags ${{ inputs.docker_tags }}"
