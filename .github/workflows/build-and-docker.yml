@@ -16,6 +16,9 @@ on:
       dockerfile_path:
         required: true
         type: string
+      docker_image_name:
+        required: true
+        type: string
       docker_tags:
         required: false
         type: string
@@ -101,4 +104,4 @@ jobs:
           context: .
           file: ${{ inputs.dockerfile_path }}
           push: true
-          tags: ${{ secrets.dockerhub_username }}/qubership-integration-engine:${{ github.sha }}
+          tags: ${{ secrets.dockerhub_username }}/${{ inputs.docker_image_name }}:${{ github.sha }}
