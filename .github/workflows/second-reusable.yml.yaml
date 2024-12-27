@@ -12,4 +12,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Использовать входное значение
-        run: echo "Получено значение: ${{ inputs.example_input }}"
+        run: echo "Получено значение ${{ inputs.example_input }}"
