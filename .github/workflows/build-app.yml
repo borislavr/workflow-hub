@@ -3,14 +3,16 @@ name: Reusable Build Workflow
 on:
   workflow_call:
     inputs:
-      maven_options:
-        required: false
-        type: string
-        default: ""
       maven_command:
         required: false
         type: string
         default: "clean package"
+      artifact_name:
+        required: true
+        type: string
+      artifact_path:
+        required: true
+        type: string    
     outputs:
       artifact_path:
         description: 'Путь к созданному артефакту'
@@ -46,5 +48,5 @@ jobs:
         id: upload_artifact
         uses: actions/upload-artifact@v3
         with:
-          name: app-artifact
-          path: target/*.jar
+          name: ${{ inputs.artifact_name }}
+          path: ${{ inputs.artifact_path }}
