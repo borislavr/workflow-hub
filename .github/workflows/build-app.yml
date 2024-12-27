@@ -13,13 +13,12 @@ on:
       artifact_path:
         required: true
         type: string
-
+        
+    secrets:
       maven_username:
         required: true
-        type: string
       maven_password:
-        required: true
-        type: string  
+        required: true   
 
     outputs:
       artifact_path:
