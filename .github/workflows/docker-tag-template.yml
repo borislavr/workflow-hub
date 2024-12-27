@@ -3,14 +3,14 @@ name: Docker Tag Template
 on:
   workflow_call:
     outputs:
-      docker_tags:
-        value: ${{ jobs.tag.outputs.docker_tags }}
+      docker_tag:
+        value: ${{ jobs.tag.outputs.docker_tag }}
 
 jobs:
   tag:
     runs-on: ubuntu-latest
     outputs:
-      docker_tags: ${{ steps.set_tags.outputs.docker_tags }}
+      docker_tag: ${{ steps.set_tag.outputs.docker_tag }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -18,12 +18,12 @@ jobs:
       - name: Debug GITHUB_REF
         run: echo "GITHUB_REF = $GITHUB_REF"
 
-      - name: Set docker tags variable
-        id: set_tags
+      - name: Set docker tag variable
+        id: set_tag
         run: |
           TAG=$(echo "${GITHUB_REF}" | sed -e 's|refs/tags/||' -e 's|refs/heads/||')
           if [ -z "$TAG" ]; then TAG="main"; fi
-          echo "docker_tags=$TAG" >> $GITHUB_OUTPUT
+          echo "docker_tag=$TAG" >> $GITHUB_OUTPUT
 
-      - name: Debug docker_tags
-        run: echo "docker_tags = ${{ steps.set_tags.outputs.docker_tags }}"
+    #  - name: Debug docker_tag
+    #    run: echo "docker_tag = ${{ steps.set_tag.outputs.docker_tag }}"
