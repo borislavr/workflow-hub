@@ -1,4 +1,4 @@
-name: Reusable Docker Build and Push Workflow
+name: Docker Build and Push Workflow
 
 on:
   workflow_call:

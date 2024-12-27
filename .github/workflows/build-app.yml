@@ -1,4 +1,4 @@
-name: Reusable Build Workflow
+name: Java Build Workflow
 
 on:
   workflow_call:
@@ -12,7 +12,15 @@ on:
         type: string
       artifact_path:
         required: true
-        type: string    
+        type: string
+
+      maven_username:
+        required: true
+        type: string
+      maven_password:
+        required: true
+        type: string  
+
     outputs:
       artifact_path:
         description: 'Путь к созданному артефакту'
@@ -35,14 +43,28 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
-      - name: Set up JDK
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'temurin'
-          java-version: '21'
+    #   - name: Set up JDK
+    #     uses: actions/setup-java@v3
+    #     with:
+    #       distribution: 'temurin'
+    #       java-version: '21'
 
-      - name: Build with Maven
-        run: mvn ${{ inputs.maven_command }}
+    #   - name: Build with Maven
+    #     run: mvn ${{ inputs.maven_command }}
+
+      - name: Set up Maven Central Repository     
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          server-id: ossrh
+          server-username: MAVEN_USERNAME
+          server-password: MAVEN_PASSWORD
+      - name: Publish package
+        run: mvn --batch-mode deploy
+        env:
+          MAVEN_USERNAME: ${{ inputs.maven_username }}
+          MAVEN_PASSWORD: ${{ inputs.maven_password }}   
 
       - name: Upload artifact
         id: upload_artifact
