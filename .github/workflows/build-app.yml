@@ -51,7 +51,7 @@ jobs:
     #   - name: Build with Maven
     #     run: mvn ${{ inputs.maven_command }}
       - name: Verify Maven credentials
-        run: echo "MAVEN_USERNAME=${{ inputs.maven_username }} MAVEN_PASSWORD=${{ inputs.maven_password }}"
+        run: echo "MAVEN_USERNAME=${{ secrets.maven_username }} MAVEN_PASSWORD=${{ secrets.maven_password }}"
 
       - name: Verify artifact path
         run: ls -la 
@@ -70,8 +70,8 @@ jobs:
         # run: mvn --batch-mode deploy
         run: mvn --batch-mode deploy -DaltDeploymentRepository=ossrh::default::https://oss.sonatype.org/service/local/staging/deploy/maven2/
         env:
-          MAVEN_USERNAME: ${{ inputs.maven_username }}
-          MAVEN_PASSWORD: ${{ inputs.maven_password }}   
+          MAVEN_USERNAME: ${{ secrets.maven_username }}
+          MAVEN_PASSWORD: ${{ secrets.maven_password }}   
 
       - name: Upload artifact
         id: upload_artifact
