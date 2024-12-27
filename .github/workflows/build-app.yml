@@ -1,0 +1,50 @@
+name: Reusable Build Workflow
+
+on:
+  workflow_call:
+    inputs:
+      maven_options:
+        required: false
+        type: string
+        default: ""
+      maven_command:
+        required: false
+        type: string
+        default: "clean package"
+    outputs:
+      artifact_path:
+        description: 'Путь к созданному артефакту'
+        value: ${{ jobs.build.outputs.artifact_path }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      artifact_path: ${{ steps.upload_artifact.outputs.artifact_path }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Cache Maven dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Build with Maven
+        run: mvn ${{ inputs.maven_command }}
+
+      - name: Upload artifact
+        id: upload_artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: app-artifact
+          path: target/*.jar

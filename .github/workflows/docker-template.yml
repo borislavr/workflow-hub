@@ -1,0 +1,50 @@
+name: Reusable Docker Build and Push Workflow
+
+on:
+  workflow_call:
+    inputs:
+      dockerfile_path:
+        required: true
+        type: string
+      docker_image_name:
+        required: true
+        type: string
+      docker_tags:
+        required: true
+        type: string
+      push_image:
+        required: false
+        type: boolean
+        default: true
+    secrets:
+      dockerhub_username:
+        required: true
+      dockerhub_password:
+        required: true
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: app-artifact
+
+      - name: Log in to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.dockerhub_username }}
+          password: ${{ secrets.dockerhub_password }}
+
+      - name: Build and push Docker image
+        if: ${{ inputs.push_image }}
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ${{ inputs.dockerfile_path }}
+          push: true
+          tags: ${{ secrets.dockerhub_username }}/${{ inputs.docker_image_name }}:${{ inputs.docker_tags }}
