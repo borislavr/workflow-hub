@@ -13,7 +13,7 @@ on:
       artifact_path:
         required: true
         type: string
-        
+
     secrets:
       maven_username:
         required: true
@@ -50,6 +50,12 @@ jobs:
 
     #   - name: Build with Maven
     #     run: mvn ${{ inputs.maven_command }}
+      - name: Verify Maven credentials
+        run: echo "MAVEN_USERNAME=${{ inputs.maven_username }} MAVEN_PASSWORD=${{ inputs.maven_password }}"
+
+      - name: Verify artifact path
+        run: ls -la ${{ inputs.artifact_path }}  
+
 
       - name: Set up Maven Central Repository     
         uses: actions/setup-java@v4
@@ -59,8 +65,10 @@ jobs:
           server-id: ossrh
           server-username: MAVEN_USERNAME
           server-password: MAVEN_PASSWORD
+          
       - name: Publish package
-        run: mvn --batch-mode deploy
+        # run: mvn --batch-mode deploy
+        run: mvn --batch-mode deploy -DaltDeploymentRepository=ossrh::default::https://oss.sonatype.org/service/local/staging/deploy/maven2/
         env:
           MAVEN_USERNAME: ${{ inputs.maven_username }}
           MAVEN_PASSWORD: ${{ inputs.maven_password }}   
