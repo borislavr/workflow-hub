@@ -69,8 +69,7 @@ jobs:
       - name: Publish package
         # run: mvn --batch-mode deploy
 
-        run: mvn clean deploy -X
-        #mvn --batch-mode deploy -DaltDeploymentRepository=ossrh::default::https://oss.sonatype.org/service/local/staging/deploy/maven2/
+        run: mvn --batch-mode deploy - X -DaltDeploymentRepository=ossrh::default::https://oss.sonatype.org/service/local/staging/deploy/maven2/
         
         env:
           MAVEN_USERNAME: ${{ secrets.maven_username }}
