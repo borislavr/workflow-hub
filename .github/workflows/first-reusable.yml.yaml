@@ -1,0 +1,18 @@
+name: First Reusable Workflow
+on:
+  workflow_call:
+    outputs:
+      example_output:
+        description: 'Пример выходной переменной'
+        value: ${{ steps.set_output.outputs.example_value }}
+
+jobs:
+  set_output:
+    runs-on: ubuntu-latest
+    outputs:
+      example_value: ${{ steps.set_output.outputs.example_value }}
+    steps:
+      - name: Установить выходное значение
+        id: set_output
+        run: echo "example_value=Значение из первого workflow" >> $GITHUB_ENV  
+        

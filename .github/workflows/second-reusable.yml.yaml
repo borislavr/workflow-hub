@@ -1,0 +1,15 @@
+name: Second Reusable Workflow
+on:
+  workflow_call:
+    inputs:
+      example_input:
+        description: 'Входная переменная из первого workflow'
+        required: true
+        type: string
+
+jobs:
+  use_input:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Использовать входное значение
+        run: echo "Получено значение ${{ inputs.example_input }}"
