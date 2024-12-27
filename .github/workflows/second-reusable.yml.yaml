@@ -3,7 +3,7 @@ on:
   workflow_call:
     inputs:
       example_input:
-        description: 'Входная переменная из первого workflow'
+        description: 'Входной параметр из первого workflow'
         required: true
         type: string
 
@@ -12,4 +12,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Использовать входное значение
-        run: echo "Получено значение ${{ inputs.example_input }}"
+        run: echo "Получено значение: ${{ inputs.example_input }}"
