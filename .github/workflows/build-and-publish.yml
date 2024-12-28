@@ -34,13 +34,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Cache Maven dependencies
-        uses: actions/cache@v3
-        with:
-          path: ~/.m2
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-maven-
+      # - name: Cache Maven dependencies
+      #   uses: actions/cache@v3
+      #   with:
+      #     path: ~/.m2
+      #     key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+      #     restore-keys: |
+      #       ${{ runner.os }}-maven-
 
     #   - name: Set up JDK
     #     uses: actions/setup-java@v3
@@ -63,13 +63,13 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
           server-id: ossrh
-          server-username: ${{ secrets.maven_username }}
-          server-password: ${{ secrets.maven_password }}
+          server-username: MAVEN_USERNAME
+          server-password: MAVEN_PASSWORD
 
       - name: Publish package
         # run: mvn --batch-mode deploy
 
-        run: mvn --batch-mode deploy -X -verbose -DaltDeploymentRepository=ossrh::default::https://oss.sonatype.org/service/local/staging/deploy/maven2/
+        run: mvn --batch-mode deploy -X -DaltDeploymentRepository=ossrh::default::https://oss.sonatype.org/service/local/staging/deploy/maven2/
         
         env:
           MAVEN_USERNAME: ${{ secrets.maven_username }}
