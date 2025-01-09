@@ -84,7 +84,7 @@ jobs:
           MAVEN_GPG_PASSPHRASE: ${{ secrets.maven_gpg_passphrase }}
 
       - name: Verify artifact signatures
-        run: ls -la
+        run: tree -a ./target
 
 #      - name: Publish package
 #        run: mvn --batch-mode deploy
