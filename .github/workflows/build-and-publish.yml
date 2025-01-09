@@ -73,7 +73,7 @@ jobs:
         continue-on-error: true
 
       - name: Sign artifacts
-        run: mvn --batch-mode sign
+        run: mvn --batch-mode verify
         env:
           MAVEN_USERNAME: ${{ secrets.maven_username }}
           MAVEN_PASSWORD: ${{ secrets.maven_password }}   
