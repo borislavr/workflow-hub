@@ -73,6 +73,7 @@ jobs:
         env:
           MAVEN_USERNAME: ${{ secrets.maven_username }}
           MAVEN_PASSWORD: ${{ secrets.maven_password }}   
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
 
       - name: Upload artifact
         id: upload_artifact
