@@ -68,12 +68,26 @@ jobs:
           gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }} # Value of the GPG private key to import
           gpg-passphrase: ${{ secrets.MAVEN_GPG_PASSPHRASE }} # env variable for GPG private key passphrase
 
-      - name: Publish package
-        run: mvn --batch-mode deploy
+      - name: Verify settings.xml
+        run: cat settings.xml
+        continue-on-error: true
+
+      - name: Sign artifacts
+        run: mvn --batch-mode sign
         env:
           MAVEN_USERNAME: ${{ secrets.maven_username }}
           MAVEN_PASSWORD: ${{ secrets.maven_password }}   
           MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
+
+      - name: Verify artifact signatures
+        run: ls -la
+
+#      - name: Publish package
+#        run: mvn --batch-mode deploy
+#        env:
+#          MAVEN_USERNAME: ${{ secrets.maven_username }}
+#          MAVEN_PASSWORD: ${{ secrets.maven_password }}   
+#          MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
 
       - name: Upload artifact
         id: upload_artifact
