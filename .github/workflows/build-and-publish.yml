@@ -69,7 +69,7 @@ jobs:
           gpg-passphrase: ${{ secrets.MAVEN_GPG_PASSPHRASE }} # env variable for GPG private key passphrase
 
       - name: Verify settings.xml
-        run: cat settings.xml
+        run: cat /home/runner/.m2/settings.xml
         continue-on-error: true
 
       - name: Sign artifacts
@@ -89,9 +89,9 @@ jobs:
 #          MAVEN_PASSWORD: ${{ secrets.maven_password }}   
 #          MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
 
-      - name: Upload artifact
-        id: upload_artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: ${{ inputs.artifact_name }}
-          path: ${{ inputs.artifact_path }}
+#      - name: Upload artifact
+#        id: upload_artifact
+#        uses: actions/upload-artifact@v3
+#        with:
+#          name: ${{ inputs.artifact_name }}
+#          path: ${{ inputs.artifact_path }}
