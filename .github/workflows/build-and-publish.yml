@@ -18,7 +18,11 @@ on:
       maven_username:
         required: true
       maven_password:
-        required: true   
+        required: true
+      MAVEN_GPG_PASSPHRASE:
+        required: true
+      MAVEN_GPG_PRIVATE_KEY:
+        required: true
 
     outputs:
       artifact_path:
