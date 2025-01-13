@@ -7,6 +7,10 @@ on:
         required: false
         type: string
         default: "github"
+      maven_server_id:
+        required: false
+        type: string
+        default: "github"
       artifact_version:
         required: false
         type: string
@@ -34,6 +38,7 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
+          server_id: ${{ maven_server_id }}
           gpg-private-key: ${{ secrets.maven_gpg_private_key }}
           gpg-passphrase: MAVEN_GPG_PASSPHRASE
 
