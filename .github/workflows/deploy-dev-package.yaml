@@ -2,7 +2,23 @@ name: Publish Java package to Github Packages
 
 on: 
   workflow_call:
+    inputs:
+      maven_profile:
+        required: false
+        type: string
+        default: "github"
+      artifact_version:
+        required: false
+        type: string
+        default: '${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}+${{ github.run_number }}'
 
+    secrets:
+      maven_gpg_passphrase:
+        required: true
+      maven_gpg_private_key:
+        required: true
+      github_token:
+        required: true
 permissions:
   contents: read
   packages: write
@@ -18,13 +34,13 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-          gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
+          gpg-private-key: ${{ secrets.maven_gpg_private_key }}
           gpg-passphrase: MAVEN_GPG_PASSPHRASE
 
       - name: Publish package
         run: |
-          mvn -B org.codehaus.mojo:build-helper-maven-plugin:3.6.0:parse-version org.codehaus.mojo:versions-maven-plugin:2.17.1:set -DnewVersion=\${parsedVersion.majorVersion}.\${parsedVersion.minorVersion}.\${parsedVersion.incrementalVersion}-dev${{ github.run_number }}
-          mvn -B -Pgithub deploy
+          mvn -B org.codehaus.mojo:build-helper-maven-plugin:3.6.0:parse-version org.codehaus.mojo:versions-maven-plugin:2.17.1:set -DnewVersion=${{ artifact_version }}
+          mvn -B -P${{ maven_profile }} deploy
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+          GITHUB_TOKEN: ${{ secrets.github_token }}
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.maven_gpg_passphrase }}
