@@ -38,7 +38,8 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-          server_id: ${{ maven_server_id }}
+          server-id: ${{ maven_server_id }}
+          server-password: GITHUB_TOKEN
           gpg-private-key: ${{ secrets.maven_gpg_private_key }}
           gpg-passphrase: MAVEN_GPG_PASSPHRASE
 
