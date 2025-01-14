@@ -10,6 +10,19 @@ In this case we publish release versions into Maven Central. The modern Maven Ce
 
 ### POM file additions
 
+#### Distribution management
+
+Under `project` add a new section
+
+```xml
+    <distributionManagement>
+        <repository>
+            <id>central</id>
+            <name>Central Maven Repository</name>
+        </repository>
+    </distributionManagement>
+```
+
 #### Build plugins
 
 In a sectin `project.build.plugins` add next entries:
